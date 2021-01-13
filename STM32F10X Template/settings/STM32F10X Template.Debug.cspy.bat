@@ -19,6 +19,22 @@
 @REM 
 
 
-"D:\IAR\common\bin\cspybat" "D:\IAR\arm\bin\armproc.dll" "D:\IAR\arm\bin\armsim2.dll"  %1 --plugin "D:\IAR\arm\bin\armbat.dll" --device_macro "D:\IAR\arm\config\debugger\ST\STM32F1xx.dmac" --backend -B "--endian=little" "--cpu=Cortex-M3" "--fpu=None" "-p" "D:\IAR\arm\CONFIG\debugger\ST\STM32F103x8.ddf" "--semihosting" "--device=STM32F103x8" "--multicore_nr_of_cores=1" 
+@echo off 
 
+if not "%~1" == "" goto debugFile 
 
+@echo on 
+
+"D:\IAR8\common\bin\cspybat" -f "E:\教程\stm32\code\STM32F10X Template\settings\STM32F10X Template.Debug.general.xcl" --backend -f "E:\教程\stm32\code\STM32F10X Template\settings\STM32F10X Template.Debug.driver.xcl" 
+
+@echo off 
+goto end 
+
+:debugFile 
+
+@echo on 
+
+"D:\IAR8\common\bin\cspybat" -f "E:\教程\stm32\code\STM32F10X Template\settings\STM32F10X Template.Debug.general.xcl" "--debug_file=%~1" --backend -f "E:\教程\stm32\code\STM32F10X Template\settings\STM32F10X Template.Debug.driver.xcl" 
+
+@echo off 
+:end
