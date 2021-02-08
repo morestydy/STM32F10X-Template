@@ -175,3 +175,42 @@ int main(void)
     6、推挽输出GPIO_OUT_PP ——IO输出0-接GND， IO输出1 -接VCC，读输入值是未知的
     7、复用功能的推挽输出GPIO_AF_PP ——片内外设功能（I2C的SCL,SDA）
     8、复用功能的开漏输出GPIO_AF_OD——片内外设功能（TX1,MOSI,MISO.SCK.SS）
+
+## 串口中断
+
+配置步骤:
+
+1. 串口时钟使能，GPIO时钟使能:`RCC_APB2PeriphClockCmd();`
+
+2. 串口复位:`USART_DeInit*();` *这一步不是必须的*
+
+3. GPIO端口模式设置:`GPIO_Init();` 
+
+4. 串口参数初始化：`USART_Init();`
+
+5. 开启中断并且初始化NVIC（如果需要开启中断才需要这个步骤）
+
+   ```c
+   NVIC_Init();
+   USART_ITConfig();
+   ```
+
+6. 使能串口:`USART_Cmd();`
+
+7. 编写中断处理函数：`USARTx_IRQHandler();`
+
+8. 串口数据收发：
+
+   ``` c
+   void USART_SendData();//发送数据到串口，DR
+   uint16_t USART_ReceiveData();//接受数据，从DR读取接受到的数据
+   ```
+
+9. 串口传输状态获取：
+
+   ```c
+   FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG);
+   void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT);
+   ```
+
+   ![usart_xcom](E:%5Clearning%5Cstm32%5Ccode%5Cusart_xcom.png)
